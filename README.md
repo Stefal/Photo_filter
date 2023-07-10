@@ -6,9 +6,9 @@ usage: photo_filter.py [-h] [-d DUPLICATE_DISTANCE] [-j JSON_FILE] [-r]
                        [-t MAX_TURN_ANGLE] [-e ENCLOSING_IMAGES] [-v]
                        paths [paths ...]
 
-Search for distance based duplicate images and move them in a 'duplicate' subfolder.
-Search for image in geofence zones and move them in a 'geofence' subfolder
-Search for images with a too large angle between them.
+ - Search for distance based duplicate images and move them in a 'duplicate' subfolder.
+ - Search for image in geofence zones and move them in a 'geofence' subfolder
+ - Search for images with a too large angle between them.
 
 positional arguments:
   paths                 paths to the images folders
