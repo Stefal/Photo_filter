@@ -1,6 +1,6 @@
 # Photo_filter
 
-Filter photo sequences
+Filter geolocalized photo sequences. Useful to move unuseful images before uploading sequences on [Panoramax](https://panoramax.fr/).
 ```
 usage: photo_filter.py [-h] [-d DUPLICATE_DISTANCE] [-j JSON_FILE] [-r]
                        [-t MAX_TURN_ANGLE] [-e ENCLOSING_IMAGES] [-v]
@@ -15,17 +15,22 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -d DUPLICATE_DISTANCE, --duplicate_distance DUPLICATE_DISTANCE
-                        Min distance in meter for duplicate image detection.
-                        Default: 0.5 meter(s)
-  -j JSON_FILE, --json_file JSON_FILE
-                        Path to the geojson file containing geofence polygons
+  
   -r, --recursive       search images in subdirectory
-  -t MAX_TURN_ANGLE, --max_turn_angle MAX_TURN_ANGLE
+  
+  -d, --duplicate_distance DUPLICATE_DISTANCE
+                        Min distance in meter for duplicate image detection.
+                        Default: 0.5 meter
+  
+  -j, --json_file JSON_FILE
+                        Path to the geojson file containing geofence polygons
+ 
+  -t, --max_turn_angle MAX_TURN_ANGLE
                         Check if two subsequent images have a too large direction angle.
                         The result will be send to Josm as an image layer.
-                        Default: False°
-  -e ENCLOSING_IMAGES, --enclosing_images ENCLOSING_IMAGES
+                        Default: False
+  
+  -e, --enclosing_images ENCLOSING_IMAGES
                         Set how many images will be added around a too tight angle. These images will be included in the Josm session.
                          Exemple with 10: 2 images before and 8 images after.
                         Default: 10 images
