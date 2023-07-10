@@ -1,0 +1,3 @@
+python-dateutil==2.8.2
+exifread==3.0.0
+shapely==2.0.1
