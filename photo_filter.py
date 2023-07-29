@@ -356,7 +356,7 @@ def main(path):
         except IndexError:
             print("Info: no more image available")
         except TypeError as e:
-            print("Error, no GPSImgDirection available ? ({})".format(e))
+            print("{} : Error, no GPSImgDirection available ? ({})".format(image.path, e))
         prev_direction = current_direction
 
     print("{} duplicates found".format(len(duplicate_list)))
