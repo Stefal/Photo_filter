@@ -94,6 +94,9 @@ def list_images(directory):
         #metadata.read()
         try:
             t = metadata.extract_capture_time()
+            if t is None :
+                print("Missing DateTimeOriginal on {}".format(filepath))
+                exit()
             lon, lat = metadata.extract_lon_lat()
             img_direction = metadata.extract_direction()
             #print(filepath, lon, lat)
@@ -108,8 +111,10 @@ def list_images(directory):
         except KeyError as e:
             # if any of the required tags are not set the image is not added to the list
             print("Skipping {0}: {1}".format(filepath, e))
-    
-    files.sort(key=lambda file: file.DateTimeOriginal)
+    try:
+        files.sort(key=lambda file: file.DateTimeOriginal)
+    except Exception as e:
+        print("Error on file - {}".format(e))
     #print_list(files)
     return files
 
@@ -333,10 +338,11 @@ def main(path):
         current_long = image.Longitude
         current_direction = image.ImgDirection
         #Check distance between images
-        img_distance = ComputeDist(prev_lat, prev_long, current_lat, current_long)
-        if img_distance < args.duplicate_distance:
-            duplicate_list.append(image)
-            continue
+        if args.duplicate_distance:
+            img_distance = ComputeDist(prev_lat, prev_long, current_lat, current_long)
+            if img_distance < args.duplicate_distance:
+                duplicate_list.append(image)
+                continue
         #Check geofence
         prev_lat = current_lat
         prev_long = current_long
