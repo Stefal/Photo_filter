@@ -357,7 +357,11 @@ def main(path):
             if args.max_turn_angle and abs((current_direction - prev_direction + 180) % 360 - 180) > args.max_turn_angle:
                 
                     for idx in range(trailing_pics):
-                        if i-2+idx >= 0 and images_list[i-2+idx] not in reverse_list:
+                        if i-2+idx >= 0 \
+                                and images_list[i-2+idx] not in reverse_list \
+                                and images_list[i-2+idx] not in geofence_list \
+                                and images_list[i-2+idx] not in duplicate_list:
+                            print("turn angle too large")
                             reverse_list.append(images_list[i-2+idx])
         except IndexError:
             print("Info: no more image available")
