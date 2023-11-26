@@ -337,21 +337,24 @@ def main(path):
         current_lat = image.Latitude
         current_long = image.Longitude
         current_direction = image.ImgDirection
-        #Check distance between images
-        if args.duplicate_distance:
-            img_distance = ComputeDist(prev_lat, prev_long, current_lat, current_long)
-            if img_distance < args.duplicate_distance:
-                duplicate_list.append(image)
-                continue
+        
         #Check geofence
-        prev_lat = current_lat
-        prev_long = current_long
         if args.json_file is not None:
             area = find_polygon(Point(image.Longitude, image.Latitude), area_dict, previous_area)
             if area is not None:
                 previous_area = area
                 geofence_list.append(image)
                 continue
+        
+        #Check distance between images
+        if args.duplicate_distance:
+            img_distance = ComputeDist(prev_lat, prev_long, current_lat, current_long)
+            if img_distance < args.duplicate_distance:
+                duplicate_list.append(image)
+                continue
+        prev_lat = current_lat
+        prev_long = current_long
+        
         #Check angle
         try:
             if args.max_turn_angle and abs((current_direction - prev_direction + 180) % 360 - 180) > args.max_turn_angle:
@@ -361,7 +364,7 @@ def main(path):
                                 and images_list[i-2+idx] not in reverse_list \
                                 and images_list[i-2+idx] not in geofence_list \
                                 and images_list[i-2+idx] not in duplicate_list:
-                            print("turn angle too large")
+                            #print("turn angle too large")
                             reverse_list.append(images_list[i-2+idx])
         except IndexError:
             print("Info: no more image available")
