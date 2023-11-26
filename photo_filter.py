@@ -333,6 +333,7 @@ def main(path):
     duplicate_list = []
     geofence_list = []
     reverse_list = []
+    reverse_count = 0
     for i, image in enumerate(images_list):
         current_lat = image.Latitude
         current_long = image.Longitude
@@ -358,22 +359,24 @@ def main(path):
         #Check angle
         try:
             if args.max_turn_angle and abs((current_direction - prev_direction + 180) % 360 - 180) > args.max_turn_angle:
-                
-                    for idx in range(trailing_pics):
-                        if i-2+idx >= 0 \
-                                and images_list[i-2+idx] not in reverse_list \
-                                and images_list[i-2+idx] not in geofence_list \
-                                and images_list[i-2+idx] not in duplicate_list:
-                            #print("turn angle too large")
-                            reverse_list.append(images_list[i-2+idx])
+                reverse_count += 1
+                for idx in range(trailing_pics):
+                    if i-2+idx >= 0 \
+                            and images_list[i-2+idx] not in reverse_list \
+                            and images_list[i-2+idx] not in geofence_list \
+                            and images_list[i-2+idx] not in duplicate_list:
+                        #print("turn angle too large")
+                        reverse_list.append(images_list[i-2+idx])
         except IndexError:
             print("Info: no more image available")
         except TypeError as e:
             print("{} : Error, no GPSImgDirection available ? ({})".format(image.path, e))
         prev_direction = current_direction
 
-    print("{} duplicates found".format(len(duplicate_list)))
-    print("{} images inside geofence zone".format(len(geofence_list)))
+    print("{} images inside geofence zone".format(len(geofence_list))) if args.json_file else None
+    print("{} duplicates found".format(len(duplicate_list))) if args.duplicate_distance else None
+    print("{} images with too large angle".format(reverse_count)) if args.max_turn_angle else None
+
     if len(duplicate_list)>0:
         os.makedirs(os.path.join(path, "duplicate"), exist_ok = True)
         move_to_subfolder(duplicate_list, os.path.join(path, "duplicate"))
