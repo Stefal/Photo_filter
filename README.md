@@ -43,3 +43,11 @@ optional arguments:
 + Activate this environnement: linux: `source bin/activate` - windows powershell:  `bin\script\activate.ps1`
 + Clone this repository: `git clone https://github.com/Stefal/Photo_filter.git`
 + Install the requirements: `pip install -r Photo_filter/requirements.txt`
+
+## Create geofence polygons
+
+I usually create the geojson file with Josm.
+ - Add an empty layer
+ - Create a closed polygon around the area you want to exclude
+ - tag them with an area key/value. I use `landuse=military`
+ - export as geojson
