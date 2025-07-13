@@ -363,14 +363,15 @@ def main(path):
                 #find 2 previous images which are not already in geofence or duplicate list
                 previous_image_count=0
                 for previous_img in images_list[i-1::-1]:
-                    if previous_img not in geofence_list and previous_img not in duplicate_list:
+                    if previous_img not in geofence_list and previous_img not in duplicate_list and previous_img not in reverse_list:
                         reverse_list.append(previous_img)
                         previous_image_count += 1
                     if previous_image_count >=2:
-                        continue
+                        break
                 #find trailing images
                 for idx in range(trailing_pics):
-                    reverse_list.append(images_list[i+idx])
+                    if images_list[i+idx] not in reverse_list:
+                        reverse_list.append(images_list[i+idx])
         except IndexError:
             print("Info: no more image available")
         except TypeError as e:
