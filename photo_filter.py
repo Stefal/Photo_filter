@@ -98,6 +98,7 @@ def list_images(directory):
                 print("Missing DateTimeOriginal on {}".format(filepath))
                 exit()
             lon, lat = metadata.extract_lon_lat()
+            ele = metadata.extract_altitude()
             img_direction = metadata.extract_direction()
             #print(filepath, lon, lat)
             #print(type(t))
@@ -106,7 +107,7 @@ def list_images(directory):
                                                                 SubSecTimeOriginal = None,
                                                                 Latitude = lat,
                                                                 Longitude = lon,
-                                                                Ele = None,
+                                                                Ele = ele,
                                                                 ImgDirection = img_direction))
         except KeyError as e:
             # if any of the required tags are not set the image is not added to the list
@@ -242,7 +243,7 @@ def write_josm_session(piclists, session_file_path, cam_names, gpx_file=None, ne
                 g_position = ET.SubElement(geoimage, "position")
                 g_position.attrib = {"lat": str(pic.Latitude), "lon": str(pic.Longitude)}
                 g_elevation = ET.SubElement(geoimage, "elevation")
-                #g_elevation.text = str(pic.Ele)
+                g_elevation.text = str(pic.Ele)
                 # g_gps_time = ET.SubElement(geoimage, "gps-time")
                 # josm concatenate the timestamp second and microsecond
                 # g_gps_time.text = str(int(time.mktime(pic.New_DateTimeOriginal.timetuple()))) + str(int(round(pic.New_DateTimeOriginal.microsecond/1000,  0)))
