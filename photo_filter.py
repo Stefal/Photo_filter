@@ -313,7 +313,6 @@ def open_session_in_josm(session_file_path, remote_port=8111):
     return True
 
 def main(path):
-    trailing_pics = 10
     if args.json_file is not None:
         area_dict = import_geojson(args.json_file, "name")
         print("{} polygons loaded".format(len(area_dict)))
@@ -367,10 +366,12 @@ def main(path):
                     if previous_img not in geofence_list and previous_img not in duplicate_list and previous_img not in reverse_list:
                         reverse_list.append(previous_img)
                         previous_image_count += 1
+                    elif previous_img in reverse_list:
+                        previous_image_count +=1
                     if previous_image_count >=2:
                         break
                 #find trailing images
-                for idx in range(trailing_pics):
+                for idx in range(args.enclosing_images - 2):
                     if images_list[i+idx] not in reverse_list:
                         reverse_list.append(images_list[i+idx])
         except IndexError:
