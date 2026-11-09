@@ -317,7 +317,6 @@ def main(path):
         area_dict = import_geojson(args.json_file, "name")
         print("{} polygons loaded".format(len(area_dict)))
         previous_area = None
-        geofence_list = []
     #print(area_dict)
     images_list=list_images(path)
     print("{} images found".format(len(images_list)))
@@ -394,7 +393,7 @@ def main(path):
         os.makedirs(os.path.join(path, "geofence"), exist_ok = True)
         move_to_subfolder(geofence_list, os.path.join(path, "geofence"))
     if len(reverse_list)>0:
-        #print(reverse_list)
+        print(reverse_list)
         write_josm_session([reverse_list], os.path.join(path, "session.jos"), [path + " | reverse"])
         open_session_in_josm(os.path.abspath(os.path.join(path, "session.jos")))
         
